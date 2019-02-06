@@ -5,7 +5,7 @@ const dessert = document.getElementById("dessert");
 const drinks = document.getElementById("drinks");
 
 
-for(let i = 0; i<3; i++){
+for(let i = 0; i<6; i++){
 
 
 let clone = template.cloneNode(true);
@@ -22,7 +22,7 @@ starter.appendChild(clone);
 
 };
 
-for(let i = 0; i<4; i++){
+for(let i = 0; i<7; i++){
 
 
 let clone = template.cloneNode(true);
@@ -39,7 +39,7 @@ mainCourse.appendChild(clone);
 
 };
 
-for(let i = 0; i<4; i++){
+for(let i = 0; i<6; i++){
 
 
 let clone = template.cloneNode(true);
@@ -56,7 +56,7 @@ dessert.appendChild(clone);
 
 };
 
-for(let i = 0; i<3; i++){
+for(let i = 0; i<5; i++){
 
 
 let clone = template.cloneNode(true);
@@ -70,7 +70,8 @@ clone.querySelector("button").textContent="Details";
 
 drinks.appendChild(clone);
 
-
 };
+
+
 
 
