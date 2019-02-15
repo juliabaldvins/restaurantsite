@@ -1,91 +1,108 @@
 const template = document.querySelector("#myTemp").content;
+const main = document.querySelector("main");
+const imgLink = "https://kea-alt-del.dk/t5/site/imgs/small/";
+const productlistLink = "https://kea-alt-del.dk/t5/api/productlist";
+const catLink = "https://kea-alt-del.dk/t5/api/categories";
 
-const imgLink = "https://kea-alt-del.dk/t5/site/imgs/";
+const nav = document.querySelector("nav");
+const allLink = document.querySelector("#all");
+
+allLink.addEventListener("click", () => showCategory("all"));
+
+const productLink = "https://kea-alt-del.dk/t5/api/product?id=";
+
+const modal = document.querySelector(".modal-bg");
+
+modal.addEventListener("click", () => modal.classList.add("hide"));
 
 
-fetch("https://kea-alt-del.dk/t5/api/productlist").then(e=>e.json()).then(data=>data.forEach(showData));
 
-function showData(oneObject) {
+fetch(catLink).then(e => e.json()).then(createCatSections)
+
+
+function createCatSections(categories) {
+    console.log(categories);
+    categories.forEach(cat => {
+        const newSection = document.createElement("section");
+        const newHeader = document.createElement("h1");
+
+        const newA = document.createElement("a");
+        newA.textContent = cat;
+        newA.href = "#";
+        newA.addEventListener("click", () => showCategory(cat));
+        nav.appendChild(newA);
+
+        newSection.id = cat;
+        newHeader.textContent = cat;
+        main.appendChild(newHeader);
+        main.appendChild(newSection);
+
+    })
+
+    fetch(productlistLink).then(e => e.json()).then(data => data.forEach(showData));
+
+}
+
+function showCategory(category) {
+    console.log(category)
+    document.querySelectorAll("main section").forEach(section => {
+        if (section.id == category || category == "all") {
+            section.style.display = "grid";
+            section.previousElementSibling.style.display = "block";
+        } else {
+            section.style.display = "none";
+            section.previousElementSibling.style.display = "none";
+        }
+    })
+}
+
+function showData(product) {
+    const section = document.querySelector("#" + product.category)
     let clone = template.cloneNode(true);
-    clone.querySelector("h1").textContent = oneObject.name;
-    clone.querySelector("h2").textContent = oneObject.price + "kr.";
-    clone.querySelector("img").src =imgLink + "small/" + oneObject.image + "-sm.jpg";
-    clone.querySelector("h4").textContent = oneObject.shortdescription;
-    clone.querySelector("p").textContent = "Russisk ringbrød efter en klassisk opskrift fra Karapatien. Dejen blandes koldhæver 30 dage, inde brødet bages over bål. Meget sprødt, godt med Karapatisk bjerggedsmør.";
-    clone.querySelector("button").textContent = "Details";
 
+    clone.querySelector("h1").textContent = product.name;
+    clone.querySelector('.price span').textContent = product.price + "kr.";
+    clone.querySelector('.product-small-img').src = imgLink + product.image + "-sm.jpg";
+    clone.querySelector("h4").textContent = product.shortdescription;
+    clone.querySelector("button").addEventListener("click", () => {
+        fetch(productLink + product.id).then(e => e.json()).then(data => showModal(data));
+    });
 
-if(oneObject.category=="starter"){
-    document.querySelector(".container1").appendChild(clone);
-}
+    if(product.vegetarian == false){
 
-if(oneObject.category=="main"){
-    document.querySelector(".container2").appendChild(clone);
-}
+        clone.querySelector(".vegetarian").remove()
+    }
 
-if(oneObject.category=="dessert"){
-    document.querySelector(".container3").appendChild(clone);
-}
-
-if(oneObject.category=="drinks"){
-    document.querySelector(".container4").appendChild(clone);
-}
-
-if(oneObject.category=="sideorders"){
-    document.querySelector(".container5").appendChild(clone);
-}
-
+    section.appendChild(clone)
 
 }
 
 
 
+function showModal(data) {
+    modal.classList.remove("hide");
+    modal.querySelector(".modal-name").textContent = data.name;
+    modal.querySelector(".modal-image").src = imgLink + data.image + "-sm.jpg";
+    modal.querySelector(".modal-description").textContent = data.longdescription;
+    let price = modal.querySelector(".modal-price");
+
+    if (data.discount){
+        modal.querySelector("div article h4").textContent = data.price - Math.round((data.price * data.discount / 100)) + " kr. " + " | " + data.discount + "%" + " off.";
+    }
+
+    else {
+        modal.querySelector("div article h4").textContent = data.price + " kr. ";
+    };
 
 
-//for (let i = 0; i < 7; i++) {
-  //  let clone = template.cloneNode(true);
-    //clone.querySelector("h1").textContent = "Bulgarian farmers soup";
-    //clone.querySelector("h2").textContent = "99,-kr.";
-    //clone.querySelector("img").src = "imgs/small/bulgarskbondesuppe-sm.jpg";
-    //clone.querySelector("h4").textContent = "Cauceskus bulgarske bondesuppe";
-    //clone.querySelector("p").textContent = "Da Caucesku var i færd med at skrive sit navn med højhuse, var han nødt til at give håndværkerne solid kost, så de kunne arbejde 18 timer i døgnet, 7 dage om ugen: Bulgarsk bondesuppe. Suppen består af alt det bedste fra Bulgarien.";
-    //clone.querySelector("button").textContent = "Details";
+}
 
 
-    //mainCourse.appendChild(clone);
-
-
-//};
-
-
-
-//for (let i = 0; i < 6; i++) {
-    //let clone = template.cloneNode(true);
-    //clone.querySelector("h1").textContent = "Pavlova with melon";
-    //clone.querySelector("h2").textContent = "49,-kr.";
-    //clone.querySelector("img").src = "imgs/small/pavlova-sm.jpg";
-    //clone.querySelector("h4").textContent = "Pavlova - russiske pandekager - i honningmelon fra Nordkorea";
-    //clone.querySelector("p").textContent = "SOLD OUT";
-    //clone.querySelector("button").textContent = "Details";
-
-
-    //dessert.appendChild(clone);
-
-
-//};
-
-
-
-//for (let i = 0; i < 5; i++) {
-    //let clone = template.cloneNode(true);
-    //clone.querySelector("h1").textContent = "Red wine, glas";
-    //clone.querySelector("h2").textContent = "49,-kr.";
-    //clone.querySelector("img").src = "imgs/small/roedvin-sm.jpg";
-    //clone.querySelector("h4").textContent = "Et glas god Rødvin fra det tidligere USSR";
-    //clone.querySelector("p").textContent = "Huset Petrograd's rødvin er produceret før 1990, og lagret i de dybe saltminer (normalt forbeholdt defekte atomvåben) i Yekaterinburg. Det giver vinen en særdeles karakteristisk glød, der viser sig ved svag stearinlys-belysning.";
-    //clone.querySelector("button").textContent = "Details";
-
-
-    //drinks.appendChild(clone);
-
-// };
+function myFunction() {
+    let x = document.getElementById("myTopnav");
+    if (x.className === "topnav") {
+        x.className += " responsive";
+    } else {
+        x.className = "topnav";
+    }
+}
