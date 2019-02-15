@@ -9,44 +9,43 @@
     <title>Static Restaurant Site</title>
 </head>
 
-<header>
-
-    <h1 class="Name">THE SQUARE</h1>
-
-</header>
-
 <body>
 
+    <div class="topnav" id="myTopnav">
+        <nav>
+            <a href="#" id="all">Home</a>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+        </nav>
 
-    <ul class="topnav">
-        <li><a class="Mysite" href="index.html">HOME</a></li>
-        <li><a class="contact" href="index.html">CONTACT</a></li>
-    </ul>
+    </div>
+
+    <img src="imgs/petrograd.png" class="image">
 
     <main>
 
-    <h1 class="starter">Starter</h1>
-    <section class=" container container1"></section>
-    <h1 class="mainCourse">Main Courses</h1>
-    <section class=" container container2"></section>
-    <h1 class="dessert">Desserts</h1>
-    <section class=" container container3"></section>
-    <h1 class="drinks">Drinks</h1>
-    <section class=" container container4"></section>
-    <h1 class="sideorders">Sideorders</h1>
-    <section class=" container container5"></section>
-
     </main>
 
+    <div class="modal-bg hide">
+        <article class="modal-content">
 
+            <h1 class="modal-name">data-name</h1>
+            <img class="modal-image" src="data-image" alt="data-caption">
+            <p class="modal-description">data-longdescription</p>
+            <h4 class="modal-price">data-price</h4>
+            <button>Close</button>
+
+        </article>
+
+    </div>
 
     <template id="myTemp">
-        <article class="product">
-            <img src="imgs/small/ringbroed-druer-sm.jpg">
+        <article>
+            <img src="imgs/small/ringbroed-druerm.jpg">
             <h1>NAME</h1>
-            <h2>PRICE</h2> <h2 class="discount">DISCOUNT</h2>
+            <h2>PRICE</h2>
+            <h2>DISCOUNT</h2>
             <h4>DESPCRIPTION</h4>
-            <p>SMALLDESCRIPTION</p>
+
             <button class="button">DETAILS</button>
         </article>
     </template>
