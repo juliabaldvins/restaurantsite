@@ -21,7 +21,7 @@ img {
 section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    grid-gap: 1em;
+    grid-gap: 2em;
 }
 
 h1 {
@@ -36,15 +36,12 @@ template article {
 
 }
 
-article p {
-    font-size: 15px;
-}
-
-article h2 {
+article p h2 {
     font-size: 15px;
 }
 
 article {
+    position: relative;
     padding: 10px;
     box-shadow: 5px 5px 10px #888888;
 }
@@ -93,6 +90,20 @@ nav a:hover {
 
 .vegetarian{
     color: forestgreen;
+}
+
+.soldout {
+    opacity: 0.5;
+}
+
+.overlay {
+    position: absolute;
+    top:0;
+    right:0;
+    transform: rotate(30deg);
+    color: red;
+    font-size: 25px;
+
 }
 
 button {

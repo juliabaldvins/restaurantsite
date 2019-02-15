@@ -61,7 +61,7 @@ function showData(product) {
     let clone = template.cloneNode(true);
 
     clone.querySelector("h1").textContent = product.name;
-    clone.querySelector('.price span').textContent = product.price + "kr.";
+    clone.querySelector('.price span').textContent = product.price +  " kr. ";
     clone.querySelector('.product-small-img').src = imgLink + product.image + "-sm.jpg";
     clone.querySelector("h4").textContent = product.shortdescription;
     clone.querySelector("button").addEventListener("click", () => {
@@ -71,6 +71,16 @@ function showData(product) {
     if(product.vegetarian == false){
 
         clone.querySelector(".vegetarian").remove()
+    }
+
+
+    if(product.soldout){
+        const article = clone.querySelector("article");
+        article.classList.add("soldout");
+        const message = document.createElement("p");
+        message.textContent="Sold Out";
+        message.classList.add("overlay");
+        article.appendChild(message);
     }
 
     section.appendChild(clone)
@@ -84,16 +94,24 @@ function showModal(data) {
     modal.querySelector(".modal-name").textContent = data.name;
     modal.querySelector(".modal-image").src = imgLink + data.image + "-sm.jpg";
     modal.querySelector(".modal-description").textContent = data.longdescription;
+    modal.querySelector(".alcohol").textContent = " Alcohol: " + data.alcohol + " % ";
     let price = modal.querySelector(".modal-price");
 
     if (data.discount){
-        modal.querySelector("div article h4").textContent = data.price - Math.round((data.price * data.discount / 100)) + " kr. " + " | " + data.discount + "%" + " off.";
+        modal.querySelector("div article h4").textContent = data.price - Math.round((data.price * data.discount / 100)) + " kr. " + " - " + data.discount + "%" + " off.";
     }
 
     else {
         modal.querySelector("div article h4").textContent = data.price + " kr. ";
     };
 
+    if (data.alcohol == "0"){
+        modal.querySelector(".alcohol").remove()
+    }
+
+    else {
+        modal.querySelector(".alcohol").textContent = " Alcohol: " + data.alcohol + " % ";
+    };
 
 }
 
